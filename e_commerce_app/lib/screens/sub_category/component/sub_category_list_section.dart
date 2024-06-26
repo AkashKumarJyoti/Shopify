@@ -8,7 +8,6 @@ import '../../../utility/color_list.dart';
 import '../../../utility/constants.dart';
 import '../../category/components/add_category_form.dart';
 
-
 class SubCategoryListSection extends StatelessWidget {
   const SubCategoryListSection({super.key});
 
@@ -87,7 +86,7 @@ DataRow subCategoryDataRow(SubCategory subCatInfo, int index, {Function? edit, F
                 color: colors[index % colors.length],
                 shape: BoxShape.circle,
               ),
-              child: Text(index.toString(), textAlign: TextAlign.center),
+              child: Center(child: Text(index.toString())),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: defaultPadding),

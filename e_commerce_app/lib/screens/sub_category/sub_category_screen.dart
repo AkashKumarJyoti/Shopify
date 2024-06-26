@@ -18,42 +18,38 @@ class SubCategoryScreen extends StatelessWidget {
           children: <Widget>[
             const SubCategoryHeader(),
             const Gap(defaultPadding),
-            Column(
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: Text(
-                        "My Sub Categories", style: Theme.of(context).textTheme.titleMedium,
-                      ),
-                    ),
-                    ElevatedButton.icon(
-                      style: TextButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: defaultPadding * 1.5,
-                          vertical:
-                          defaultPadding,
-                        ),
-                      ),
-                      onPressed: () {
-                        showAddSubCategoryForm(context,null);
-                      },
-                      icon: const Icon(Icons.add),
-                      label: const Text("Add New"),
-                    ),
-                    const Gap(20),
-                    IconButton(
-                        onPressed: () {
-                          //TODO: should complete call getAllSubCategory
-                        },
-                        icon: const Icon(Icons.refresh)),
-                  ],
+                Expanded(
+                  child: Text(
+                    "My Sub Categories", style: Theme.of(context).textTheme.titleMedium,
+                  ),
                 ),
-                const Gap(defaultPadding),
-                const SubCategoryListSection(),
+                ElevatedButton.icon(
+                  style: TextButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: defaultPadding * 1.5,
+                      vertical:
+                      defaultPadding,
+                    ),
+                  ),
+                  onPressed: () {
+                    showAddSubCategoryForm(context,null);
+                  },
+                  icon: const Icon(Icons.add),
+                  label: const Text("Add New"),
+                ),
+                const Gap(20),
+                IconButton(
+                    onPressed: () {
+                      //TODO: should complete call getAllSubCategory
+                    },
+                    icon: const Icon(Icons.refresh)),
               ],
             ),
+            const Gap(defaultPadding),
+            const SubCategoryListSection(),
 
           ],
         ),

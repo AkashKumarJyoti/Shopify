@@ -1,28 +1,29 @@
 import '../../../core/data/data_provider.dart';
+import 'add_brand_form.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../../utility/color_list.dart';
 import '../../../utility/constants.dart';
-import '../../../models/category.dart';
-import 'add_category_form.dart';
+import '../../../models/brand.dart';
 
-class CategoryListSection extends StatelessWidget {
-  const CategoryListSection({
+class BrandListSection extends StatelessWidget {
+  const BrandListSection({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(defaultPadding),
-      decoration: const BoxDecoration(
+      padding: EdgeInsets.all(defaultPadding),
+      decoration: BoxDecoration(
         color: secondaryColor,
-        borderRadius: BorderRadius.all(Radius.circular(10)),
+        borderRadius: const BorderRadius.all(Radius.circular(10)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "All Categories",
+            "All Brands",
             style: Theme.of(context).textTheme.titleMedium,
           ),
           SizedBox(
@@ -32,9 +33,12 @@ class CategoryListSection extends StatelessWidget {
                 return DataTable(
                   columnSpacing: defaultPadding,
                   // minWidth: 600,
-                  columns: const [
+                  columns: [
                     DataColumn(
-                      label: Text("Category Name"),
+                      label: Text("Brands Name"),
+                    ),
+                    DataColumn(
+                      label: Text("Sub Category"),
                     ),
                     DataColumn(
                       label: Text("Added Date"),
@@ -47,11 +51,11 @@ class CategoryListSection extends StatelessWidget {
                     ),
                   ],
                   rows: List.generate(
-                    dataProvider.categories.length,
-                    (index) => categoryDataRow(dataProvider.categories[index], delete: () {
-                      //TODO: should complete call  deleteCategory
-                    }, edit: () {
-                      showAddCategoryForm(context, dataProvider.categories[index]);
+                    dataProvider.brands.length,
+                    (index) => brandDataRow(dataProvider.brands[index], index + 1, edit: () {
+                      showBrandForm(context, dataProvider.brands[index]);
+                    }, delete: () {
+                      //TODO: should complete deleteBrand
                     }),
                   ),
                 );
@@ -64,33 +68,35 @@ class CategoryListSection extends StatelessWidget {
   }
 }
 
-DataRow categoryDataRow(Category CatInfo, {Function? edit, Function? delete}) {
+DataRow brandDataRow(Brand brandInfo, int index, {Function? edit, Function? delete}) {
   return DataRow(
     cells: [
       DataCell(
         Row(
           children: [
-            Image.network(
-              CatInfo.image ?? '',
-              height: 30,
-              width: 30,
-              errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
-                return const Icon(Icons.error);
-              },
+            Container(
+              height: 24,
+              width: 24,
+              decoration: BoxDecoration(
+                color: colors[index % colors.length],
+                shape: BoxShape.circle,
+              ),
+              child: Center(child: Text(index.toString())),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
-              child: Text(CatInfo.name ?? ''),
+              child: Text(brandInfo.name!),
             ),
           ],
         ),
       ),
-      DataCell(Text(CatInfo.createdAt ?? '')),
+      DataCell(Text(brandInfo.subcategoryId?.name ?? '')),
+      DataCell(Text(brandInfo.createdAt ?? '')),
       DataCell(IconButton(
           onPressed: () {
             if (edit != null) edit();
           },
-          icon: const Icon(
+          icon: Icon(
             Icons.edit,
             color: Colors.white,
           ))),
@@ -98,7 +104,7 @@ DataRow categoryDataRow(Category CatInfo, {Function? edit, Function? delete}) {
           onPressed: () {
             if (delete != null) delete();
           },
-          icon: const Icon(
+          icon: Icon(
             Icons.delete,
             color: Colors.red,
           ))),

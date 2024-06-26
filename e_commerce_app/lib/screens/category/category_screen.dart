@@ -19,49 +19,37 @@ class CategoryScreen extends StatelessWidget {
             const CategoryHeader(),
             const SizedBox(height: defaultPadding),
             Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Expanded(
-                  flex: 5,
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Expanded(
-                            child: Text(
-                              "My Categories",
-                              style: Theme.of(context).textTheme.titleMedium,
-                            ),
-                          ),
-                          ElevatedButton.icon(
-                            style: TextButton.styleFrom(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: defaultPadding * 1.5,
-                                vertical: defaultPadding,
-                              ),
-                            ),
-                            onPressed: () {
-                              showAddCategoryForm(context, null);
-                            },
-                            icon: const Icon(Icons.add),
-                            label: const Text("Add New"),
-                          ),
-                          const Gap(20),
-                          IconButton(
-                              onPressed: () {
-                                //TODO: should complete getAllCategory
-                              },
-                              icon: const Icon(Icons.refresh)),
-                        ],
-                      ),
-                      const Gap(defaultPadding),
-                      const CategoryListSection(),
-                    ],
+                  child: Text(
+                    "My Categories",
+                    style: Theme.of(context).textTheme.titleMedium,
                   ),
                 ),
+                ElevatedButton.icon(
+                  style: TextButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: defaultPadding * 1.5,
+                      vertical: defaultPadding,
+                    ),
+                  ),
+                  onPressed: () {
+                    showAddCategoryForm(context, null);
+                  },
+                  icon: const Icon(Icons.add),
+                  label: const Text("Add New"),
+                ),
+                const Gap(20),
+                IconButton(
+                    onPressed: () {
+                      //TODO: should complete getAllCategory
+                    },
+                    icon: const Icon(Icons.refresh)),
               ],
-            )
+            ),
+            const Gap(defaultPadding),
+            const CategoryListSection()
           ],
         ),
       ),

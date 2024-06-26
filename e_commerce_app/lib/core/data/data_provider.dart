@@ -16,16 +16,99 @@ class DataProvider extends ChangeNotifier {
   HttpService service = HttpService();
 
   List<Category> _allCategories = [];
-  List<Category> _filteredCategories = [];
+  List<Category> _filteredCategories = [
+    Category(
+      sId: "1",
+      name: "Category 1",
+      image: "https://via.placeholder.com/150",
+      createdAt: "2024-01-01",
+      updatedAt: "2024-01-02",
+    ),
+    Category(
+      sId: "2",
+      name: "Category 2",
+      image: "https://via.placeholder.com/150",
+      createdAt: "2024-02-01",
+      updatedAt: "2024-02-02",
+    ),
+    Category(
+      sId: "3",
+      name: "Category 3",
+      image: "https://via.placeholder.com/150",
+      createdAt: "2024-03-01",
+      updatedAt: "2024-03-02",
+    ),
+  ];
   List<Category> get categories => _filteredCategories;
 
   List<SubCategory> _allSubCategories = [];
-  List<SubCategory> _filteredSubCategories = [];
+  // Static data for the purpose of UI testing.
+  List<SubCategory> _filteredSubCategories = [SubCategory(
+    sId: "1",
+    name: "SubCategory 1",
+    categoryId: CategoryId(sId: "1", name: "Category 1"),
+    createdAt: "2024-01-01",
+    updatedAt: "2024-01-02",
+  ),
+    SubCategory(
+      sId: "2",
+      name: "SubCategory 2",
+      categoryId: CategoryId(sId: "2", name: "Category 2"),
+      createdAt: "2024-02-01",
+      updatedAt: "2024-02-02",
+    ),
+    SubCategory(
+      sId: "3",
+      name: "SubCategory 3",
+      categoryId: CategoryId(sId: "3", name: "Category 3"),
+      createdAt: "2024-03-01",
+      updatedAt: "2024-03-02",
+    ),];
 
   List<SubCategory> get subCategories => _filteredSubCategories;
 
   List<Brand> _allBrands = [];
-  List<Brand> _filteredBrands = [];
+  List<Brand> _filteredBrands = [
+    Brand(
+      sId: "1",
+      name: "Brand 1",
+      subcategoryId: SubcategoryId(
+        sId: "1",
+        name: "SubCategory 1",
+        categoryId: "1",
+        createdAt: "2024-01-01",
+        updatedAt: "2024-01-02",
+      ),
+      createdAt: "2024-01-01",
+      updatedAt: "2024-01-02",
+    ),
+    Brand(
+      sId: "2",
+      name: "Brand 2",
+      subcategoryId: SubcategoryId(
+        sId: "2",
+        name: "SubCategory 2",
+        categoryId: "2",
+        createdAt: "2024-02-01",
+        updatedAt: "2024-02-02",
+      ),
+      createdAt: "2024-02-01",
+      updatedAt: "2024-02-02",
+    ),
+    Brand(
+      sId: "3",
+      name: "Brand 3",
+      subcategoryId: SubcategoryId(
+        sId: "3",
+        name: "SubCategory 3",
+        categoryId: "3",
+        createdAt: "2024-03-01",
+        updatedAt: "2024-03-02",
+      ),
+      createdAt: "2024-03-01",
+      updatedAt: "2024-03-02",
+    ),
+  ];
   List<Brand> get brands => _filteredBrands;
 
   List<VariantType> _allVariantTypes = [];
