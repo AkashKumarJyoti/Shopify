@@ -1,28 +1,30 @@
-import '../../../models/sub_category.dart';
-import '../provider/brand_provider.dart';
+import '../../../models/variant.dart';
+import '../../../models/variant_type.dart';
+import '../provider/variant_provider.dart';
 import '../../../utility/extensions.dart';
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-import '../../../models/brand.dart';
 import '../../../utility/constants.dart';
 import '../../../widgets/custom_dropdown.dart';
 import '../../../widgets/custom_text_field.dart';
 
-class BrandSubmitForm extends StatelessWidget {
-  final Brand? brand;
+class VariantSubmitForm extends StatelessWidget {
+  final Variant? variant;
 
-  const BrandSubmitForm({super.key, this.brand});
+  const VariantSubmitForm({super.key, this.variant});
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
-    context.brandProvider.setDataForUpdateBrand(brand);
+    var size = MediaQuery
+        .of(context)
+        .size;
+    context.variantProvider.setDataForUpdateVariant(variant);
     return SingleChildScrollView(
       child: Form(
-        key: context.brandProvider.addBrandFormKey,
+        key: context.variantProvider.addVariantsFormKey,
         child: Container(
-          padding: const EdgeInsets.all(defaultPadding),
+          padding: EdgeInsets.all(defaultPadding),
           width: size.width * 0.5,
           decoration: BoxDecoration(
             color: bgColor,
@@ -31,39 +33,40 @@ class BrandSubmitForm extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Gap(defaultPadding),
+              SizedBox(height: defaultPadding),
               Row(
                 children: [
                   Expanded(
-                    child: Consumer<BrandProvider>(
-                      builder: (context, brandProvider, child) {
+                    child: Consumer<VariantsProvider>(
+                      builder: (context, variantProvider, child) {
                         return CustomDropdown(
-                          initialValue: brandProvider.selectedSubCategory,
-                          items: context.dataProvider.subCategories,
-                          hintText: brandProvider.selectedSubCategory?.name ?? 'Select Sub Category',
-                          displayItem: (SubCategory? subCategory) => subCategory?.name ?? '',
+                          initialValue: variantProvider.selectedVariantType,
+                          items: context.dataProvider.variantTypes,
+                          hintText: variantProvider.selectedVariantType?.name ?? 'Select Variant Type',
+                          displayItem: (VariantType? variantType) => variantType?.name ?? '',
                           onChanged: (newValue) {
-                            brandProvider.selectedSubCategory = newValue;
-                            brandProvider.updateUI();
+                            variantProvider.selectedVariantType = newValue;
+                            variantProvider.updateUI();
                           },
                           validator: (value) {
                             if (value == null) {
-                              return 'Please select a Sub Category';
+                              return 'Please select a Variant Type';
                             }
                             return null;
                           },
+
                         );
                       },
                     ),
                   ),
                   Expanded(
                     child: CustomTextField(
-                      controller: context.brandProvider.brandNameCtrl,
-                      labelText: 'Brand Name',
+                      controller: context.variantProvider.variantCtrl,
+                      labelText: 'Variant Name',
                       onSave: (val) {},
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter a brand name';
+                          return 'Please enter a variant name';
                         }
                         return null;
                       },
@@ -71,7 +74,7 @@ class BrandSubmitForm extends StatelessWidget {
                   ),
                 ],
               ),
-              const Gap(defaultPadding * 2),
+              SizedBox(height: defaultPadding * 2),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -83,9 +86,9 @@ class BrandSubmitForm extends StatelessWidget {
                     onPressed: () {
                       Navigator.of(context).pop(); // Close the popup
                     },
-                    child: const Text('Cancel'),
+                    child: Text('Cancel'),
                   ),
-                  const SizedBox(width: defaultPadding),
+                  SizedBox(width: defaultPadding),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.white,
@@ -93,13 +96,13 @@ class BrandSubmitForm extends StatelessWidget {
                     ),
                     onPressed: () {
                       // Validate and save the form
-                      if (context.brandProvider.addBrandFormKey.currentState!.validate()) {
-                        context.brandProvider.addBrandFormKey.currentState!.save();
-                        //TODO: should complete call submitBrand
+                      if (context.variantProvider.addVariantsFormKey.currentState!.validate()) {
+                        context.variantProvider.addVariantsFormKey.currentState!.save();
+                        //TODO: should complete call submitVariant
                         Navigator.of(context).pop();
                       }
                     },
-                    child: const Text('Submit'),
+                    child: Text('Submit'),
                   ),
                 ],
               ),
@@ -112,16 +115,14 @@ class BrandSubmitForm extends StatelessWidget {
 }
 
 // How to show the category popup
-void showBrandForm(BuildContext context, Brand? brand) {
+void showAddVariantForm(BuildContext context, Variant? variant) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
         backgroundColor: bgColor,
-        title: Center(child: Text('Add Brand'.toUpperCase(), style: const TextStyle(color: primaryColor))),
-        content: BrandSubmitForm(
-          brand: brand,
-        ),
+        title: Center(child: Text('Add Variant'.toUpperCase(), style: TextStyle(color: primaryColor))),
+        content: VariantSubmitForm(variant: variant),
       );
     },
   );

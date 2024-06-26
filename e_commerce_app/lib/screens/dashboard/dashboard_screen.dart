@@ -46,10 +46,10 @@ class DashboardScreen extends StatelessWidget {
                             onPressed: () {
                               showAddProductForm(context, null);
                             },
-                            icon: Icon(Icons.add),
-                            label: Text("Add New"),
+                            icon: const Icon(Icons.add),
+                            label: const Text("Add New"),
                           ),
-                          Gap(20),
+                          const Gap(20),
                           IconButton(
                               onPressed: () {
                                 //TODO: should complete call getAllProduct

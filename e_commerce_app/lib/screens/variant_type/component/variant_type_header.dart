@@ -1,22 +1,23 @@
-import 'package:e_commerce_app/utility/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-class BrandHeader extends StatelessWidget {
-  const BrandHeader({super.key});
+import '../../../utility/constants.dart';
+
+class VariantsTypeHeader extends StatelessWidget {
+  const VariantsTypeHeader({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: <Widget>[
-        Text("Brands", style: Theme.of(context).textTheme.titleLarge),
+        Text("Variants Type", style: Theme.of(context).textTheme.titleLarge),
         const Spacer(flex: 2),
         Expanded(
           child: SearchField(
             onChange: (val) {
-              //TODO: should complete call filterBrands
-            },
-          )
+
+            }
+          ),
         ),
         const ProfileCard()
       ],
@@ -68,22 +69,22 @@ class SearchField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
       decoration: InputDecoration(
-        hintText: "Search",
-        fillColor: secondaryColor,
-        filled: true,
-        border: OutlineInputBorder(
-          borderSide: BorderSide.none,
-          borderRadius: BorderRadius.circular(10)
-        ),
-        suffixIcon: Container(
-          margin: const EdgeInsets.symmetric(horizontal: defaultPadding*0.5),
-          padding: const EdgeInsets.all(defaultPadding*0.75),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: primaryColor
+          hintText: "Search",
+          fillColor: secondaryColor,
+          filled: true,
+          border: OutlineInputBorder(
+              borderSide: BorderSide.none,
+              borderRadius: BorderRadius.circular(10)
           ),
-          child: SvgPicture.asset("assets/icons/Search.svg"),
-        )
+          suffixIcon: Container(
+            margin: const EdgeInsets.symmetric(horizontal: defaultPadding*0.5),
+            padding: const EdgeInsets.all(defaultPadding*0.75),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: primaryColor
+            ),
+            child: SvgPicture.asset("assets/icons/Search.svg"),
+          )
       ),
     );
   }

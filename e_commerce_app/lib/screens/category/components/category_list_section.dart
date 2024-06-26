@@ -6,9 +6,7 @@ import '../../../models/category.dart';
 import 'add_category_form.dart';
 
 class CategoryListSection extends StatelessWidget {
-  const CategoryListSection({
-    Key? key,
-  }) : super(key: key);
+  const CategoryListSection({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -64,14 +62,14 @@ class CategoryListSection extends StatelessWidget {
   }
 }
 
-DataRow categoryDataRow(Category CatInfo, {Function? edit, Function? delete}) {
+DataRow categoryDataRow(Category catInfo, {Function? edit, Function? delete}) {
   return DataRow(
     cells: [
       DataCell(
         Row(
           children: [
             Image.network(
-              CatInfo.image ?? '',
+              catInfo.image ?? '',
               height: 30,
               width: 30,
               errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
@@ -80,12 +78,12 @@ DataRow categoryDataRow(Category CatInfo, {Function? edit, Function? delete}) {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
-              child: Text(CatInfo.name ?? ''),
+              child: Text(catInfo.name ?? ''),
             ),
           ],
         ),
       ),
-      DataCell(Text(CatInfo.createdAt ?? '')),
+      DataCell(Text(catInfo.createdAt ?? '')),
       DataCell(IconButton(
           onPressed: () {
             if (edit != null) edit();

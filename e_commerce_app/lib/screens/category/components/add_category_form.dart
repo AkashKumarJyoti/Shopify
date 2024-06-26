@@ -21,7 +21,7 @@ class CategorySubmitForm extends StatelessWidget {
       child: Form(
         key: context.categoryProvider.addCategoryFormKey,
         child: Container(
-          padding: EdgeInsets.all(defaultPadding),
+          padding: const EdgeInsets.all(defaultPadding),
           width: size.width * 0.3,
           decoration: BoxDecoration(
             color: bgColor,
@@ -30,7 +30,7 @@ class CategorySubmitForm extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Gap(defaultPadding),
+              const Gap(defaultPadding),
               Consumer<CategoryProvider>(
                 builder: (context, catProvider, child) {
                   return CategoryImageCard(
@@ -43,7 +43,7 @@ class CategorySubmitForm extends StatelessWidget {
                   );
                 },
               ),
-              Gap(defaultPadding),
+              const Gap(defaultPadding),
               CustomTextField(
                 controller: context.categoryProvider.categoryNameCtrl,
                 labelText: 'Category Name',
@@ -55,7 +55,7 @@ class CategorySubmitForm extends StatelessWidget {
                   return null;
                 },
               ),
-              Gap(defaultPadding * 2),
+              const Gap(defaultPadding * 2),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -67,9 +67,9 @@ class CategorySubmitForm extends StatelessWidget {
                     onPressed: () {
                       Navigator.of(context).pop(); // Close the popup
                     },
-                    child: Text('Cancel'),
+                    child: const Text('Cancel'),
                   ),
-                  Gap(defaultPadding),
+                  const Gap(defaultPadding),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.white,
@@ -83,7 +83,7 @@ class CategorySubmitForm extends StatelessWidget {
                         Navigator.of(context).pop();
                       }
                     },
-                    child: Text('Submit'),
+                    child: const Text('Submit'),
                   ),
                 ],
               ),
@@ -102,7 +102,7 @@ void showAddCategoryForm(BuildContext context, Category? category) {
     builder: (BuildContext context) {
       return AlertDialog(
         backgroundColor: bgColor,
-        title: Center(child: Text('Add Category'.toUpperCase(), style: TextStyle(color: primaryColor))),
+        title: Center(child: Text('Add Category'.toUpperCase(), style: const TextStyle(color: primaryColor))),
         content: CategorySubmitForm(category: category),
       );
     },

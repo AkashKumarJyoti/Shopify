@@ -1,27 +1,31 @@
 import '../../../core/data/data_provider.dart';
-import 'add_brand_form.dart';
+import 'add_variant_type_form.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import '../../../utility/color_list.dart';
 import '../../../utility/constants.dart';
-import '../../../models/brand.dart';
+import '../../../models/variant_type.dart';
 
-class BrandListSection extends StatelessWidget {
-  const BrandListSection({super.key});
+
+class VariantsTypeListSection extends StatelessWidget {
+  const VariantsTypeListSection({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(defaultPadding),
-      decoration: const BoxDecoration(
+      padding: EdgeInsets.all(defaultPadding),
+      decoration: BoxDecoration(
         color: secondaryColor,
-        borderRadius: BorderRadius.all(Radius.circular(10)),
+        borderRadius: const BorderRadius.all(Radius.circular(10)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "All Brands",
+            "All Variants Type",
             style: Theme.of(context).textTheme.titleMedium,
           ),
           SizedBox(
@@ -33,10 +37,10 @@ class BrandListSection extends StatelessWidget {
                   // minWidth: 600,
                   columns: const [
                     DataColumn(
-                      label: Text("Brands Name"),
+                      label: Text("Variant Name"),
                     ),
                     DataColumn(
-                      label: Text("Sub Category"),
+                      label: Text("Variant Type"),
                     ),
                     DataColumn(
                       label: Text("Added Date"),
@@ -49,12 +53,17 @@ class BrandListSection extends StatelessWidget {
                     ),
                   ],
                   rows: List.generate(
-                    dataProvider.brands.length,
-                    (index) => brandDataRow(dataProvider.brands[index], index + 1, edit: () {
-                      showBrandForm(context, dataProvider.brands[index]);
-                    }, delete: () {
-                      //TODO: should complete deleteBrand
-                    }),
+                    dataProvider.variantTypes.length,
+                    (index) => variantTypeDataRow(
+                      dataProvider.variantTypes[index],
+                      index + 1,
+                      edit: () {
+                        showAddVariantsTypeForm(context, dataProvider.variantTypes[index]);
+                      },
+                      delete: () {
+                        //TODO: should complete call deleteVariantType
+                      },
+                    ),
                   ),
                 );
               },
@@ -66,7 +75,7 @@ class BrandListSection extends StatelessWidget {
   }
 }
 
-DataRow brandDataRow(Brand brandInfo, int index, {Function? edit, Function? delete}) {
+DataRow variantTypeDataRow(VariantType VariantTypeInfo, int index, {Function? edit, Function? delete}) {
   return DataRow(
     cells: [
       DataCell(
@@ -83,18 +92,18 @@ DataRow brandDataRow(Brand brandInfo, int index, {Function? edit, Function? dele
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
-              child: Text(brandInfo.name!),
+              child: Text(VariantTypeInfo.name ?? ''),
             ),
           ],
         ),
       ),
-      DataCell(Text(brandInfo.subcategoryId?.name ?? '')),
-      DataCell(Text(brandInfo.createdAt ?? '')),
+      DataCell(Text(VariantTypeInfo.type ?? '')),
+      DataCell(Text(VariantTypeInfo.createdAt ?? '')),
       DataCell(IconButton(
           onPressed: () {
             if (edit != null) edit();
           },
-          icon: const Icon(
+          icon: Icon(
             Icons.edit,
             color: Colors.white,
           ))),
@@ -102,7 +111,7 @@ DataRow brandDataRow(Brand brandInfo, int index, {Function? edit, Function? dele
           onPressed: () {
             if (delete != null) delete();
           },
-          icon: const Icon(
+          icon: Icon(
             Icons.delete,
             color: Colors.red,
           ))),

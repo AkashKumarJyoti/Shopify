@@ -112,11 +112,109 @@ class DataProvider extends ChangeNotifier {
   List<Brand> get brands => _filteredBrands;
 
   List<VariantType> _allVariantTypes = [];
-  List<VariantType> _filteredVariantTypes = [];
+  List<VariantType> _filteredVariantTypes = [VariantType(
+    name: "Color",
+    type: "String",
+    sId: "1",
+    createdAt: "2022-01-01T00:00:00Z",
+    updatedAt: "2022-01-01T00:00:00Z",
+  ),
+    VariantType(
+      name: "Size",
+      type: "String",
+      sId: "2",
+      createdAt: "2022-02-01T00:00:00Z",
+      updatedAt: "2022-02-01T00:00:00Z",
+    ),
+    VariantType(
+      name: "Weight",
+      type: "Number",
+      sId: "3",
+      createdAt: "2022-03-01T00:00:00Z",
+      updatedAt: "2022-03-01T00:00:00Z",
+    ),
+    VariantType(
+      name: "Material",
+      type: "String",
+      sId: "4",
+      createdAt: "2022-04-01T00:00:00Z",
+      updatedAt: "2022-04-01T00:00:00Z",
+    ),
+    VariantType(
+      name: "Length",
+      type: "Number",
+      sId: "5",
+      createdAt: "2022-05-01T00:00:00Z",
+      updatedAt: "2022-05-01T00:00:00Z",
+    ),];
   List<VariantType> get variantTypes => _filteredVariantTypes;
 
   List<Variant> _allVariants = [];
-  List<Variant> _filteredVariants = [];
+  List<Variant> _filteredVariants = [Variant(
+    sId: "1",
+    name: "Red",
+    variantTypeId: VariantTypeId(
+      sId: "1",
+      name: "Color",
+      type: "String",
+      createdAt: "2022-01-01T00:00:00Z",
+      updatedAt: "2022-01-01T00:00:00Z",
+    ),
+    createdAt: "2022-01-01T00:00:00Z",
+    updatedAt: "2022-01-01T00:00:00Z",
+  ),
+    Variant(
+      sId: "2",
+      name: "Medium",
+      variantTypeId: VariantTypeId(
+        sId: "2",
+        name: "Size",
+        type: "String",
+        createdAt: "2022-02-01T00:00:00Z",
+        updatedAt: "2022-02-01T00:00:00Z",
+      ),
+      createdAt: "2022-02-01T00:00:00Z",
+      updatedAt: "2022-02-01T00:00:00Z",
+    ),
+    Variant(
+      sId: "3",
+      name: "500g",
+      variantTypeId: VariantTypeId(
+        sId: "3",
+        name: "Weight",
+        type: "Number",
+        createdAt: "2022-03-01T00:00:00Z",
+        updatedAt: "2022-03-01T00:00:00Z",
+      ),
+      createdAt: "2022-03-01T00:00:00Z",
+      updatedAt: "2022-03-01T00:00:00Z",
+    ),
+    Variant(
+      sId: "4",
+      name: "Cotton",
+      variantTypeId: VariantTypeId(
+        sId: "4",
+        name: "Material",
+        type: "String",
+        createdAt: "2022-04-01T00:00:00Z",
+        updatedAt: "2022-04-01T00:00:00Z",
+      ),
+      createdAt: "2022-04-01T00:00:00Z",
+      updatedAt: "2022-04-01T00:00:00Z",
+    ),
+    Variant(
+      sId: "5",
+      name: "100cm",
+      variantTypeId: VariantTypeId(
+        sId: "5",
+        name: "Length",
+        type: "Number",
+        createdAt: "2022-05-01T00:00:00Z",
+        updatedAt: "2022-05-01T00:00:00Z",
+      ),
+      createdAt: "2022-05-01T00:00:00Z",
+      updatedAt: "2022-05-01T00:00:00Z",
+    ),];
   List<Variant> get variants => _filteredVariants;
 
   List<Product> _allProducts = [];
