@@ -13,17 +13,17 @@ import '../../variant/variant_screen.dart';
 import '../../variant_type/variant_type_screen.dart';
 
 class MainScreenProvider extends ChangeNotifier{
-  Widget selectedScreen = DashboardScreen();
+  Widget selectedScreen = const DashboardScreen();
 
 
 
   navigateToScreen(String screenName) {
     switch (screenName) {
       case 'Dashboard':
-        selectedScreen = DashboardScreen();
+        selectedScreen = const DashboardScreen();
         break; // Break statement needed here
       case 'Category':
-        selectedScreen = CategoryScreen();
+        selectedScreen = const CategoryScreen();
         break;
       case 'SubCategory':
         selectedScreen = SubCategoryScreen();
