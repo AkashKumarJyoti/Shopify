@@ -230,7 +230,148 @@ class DataProvider extends ChangeNotifier {
   List<Poster> get posters => _filteredPosters;
 
   List<Order> _allOrders = [];
-  List<Order> _filteredOrders = [];
+  List<Order> _filteredOrders = [Order(
+    shippingAddress: ShippingAddress(
+      phone: "123-456-7890",
+      street: "123 Main Street",
+      city: "Springfield",
+      state: "IL",
+      postalCode: "62701",
+      country: "USA",
+    ),
+    orderTotal: OrderTotal(
+      subtotal: 100.0,
+      discount: 10.0,
+      total: 90.0,
+    ),
+    sId: "1",
+    userID: UserID(
+      sId: "user1",
+      name: "John Doe",
+    ),
+    orderStatus: "Processing",
+    items: [
+      Items(
+        productID: "product1",
+        productName: "Product 1",
+        quantity: 2,
+        price: 45.0,
+        variant: "Variant 1",
+        sId: "item1",
+      ),
+      Items(
+        productID: "product2",
+        productName: "Product 2",
+        quantity: 1,
+        price: 55.0,
+        variant: "Variant 2",
+        sId: "item2",
+      ),
+    ],
+    totalPrice: 90.0,
+    paymentMethod: "Credit Card",
+    couponCode: CouponCode(
+      sId: "coupon1",
+      couponCode: "SAVE10",
+      discountType: "Percentage",
+      discountAmount: 10,
+    ),
+    trackingUrl: "http://tracking.example.com/12345",
+    orderDate: "2023-06-01T00:00:00Z",
+    iV: 0,
+  ),
+    Order(
+      shippingAddress: ShippingAddress(
+        phone: "987-654-3210",
+        street: "456 Elm Street",
+        city: "Shelbyville",
+        state: "IL",
+        postalCode: "62702",
+        country: "USA",
+      ),
+      orderTotal: OrderTotal(
+        subtotal: 200.0,
+        discount: 20.0,
+        total: 180.0,
+      ),
+      sId: "2",
+      userID: UserID(
+        sId: "user2",
+        name: "Jane Smith",
+      ),
+      orderStatus: "Shipped",
+      items: [
+        Items(
+          productID: "product3",
+          productName: "Product 3",
+          quantity: 3,
+          price: 60.0,
+          variant: "Variant 3",
+          sId: "item3",
+        ),
+        Items(
+          productID: "product4",
+          productName: "Product 4",
+          quantity: 1,
+          price: 80.0,
+          variant: "Variant 4",
+          sId: "item4",
+        ),
+      ],
+      totalPrice: 180.0,
+      paymentMethod: "PayPal",
+      couponCode: CouponCode(
+        sId: "coupon2",
+        couponCode: "SAVE20",
+        discountType: "Amount",
+        discountAmount: 20,
+      ),
+      trackingUrl: "http://tracking.example.com/67890",
+      orderDate: "2023-06-05T00:00:00Z",
+      iV: 0,
+    ),
+    Order(
+      shippingAddress: ShippingAddress(
+        phone: "555-555-5555",
+        street: "789 Oak Street",
+        city: "Capital City",
+        state: "IL",
+        postalCode: "62703",
+        country: "USA",
+      ),
+      orderTotal: OrderTotal(
+        subtotal: 150.0,
+        discount: 15.0,
+        total: 135.0,
+      ),
+      sId: "3",
+      userID: UserID(
+        sId: "user3",
+        name: "Alice Johnson",
+      ),
+      orderStatus: "Delivered",
+      items: [
+        Items(
+          productID: "product5",
+          productName: "Product 5",
+          quantity: 5,
+          price: 30.0,
+          variant: "Variant 5",
+          sId: "item5",
+        ),
+      ],
+      totalPrice: 135.0,
+      paymentMethod: "Credit Card",
+      couponCode: CouponCode(
+        sId: "coupon3",
+        couponCode: "SAVE15",
+        discountType: "Amount",
+        discountAmount: 15,
+      ),
+      trackingUrl: "http://tracking.example.com/54321",
+      orderDate: "2023-06-10T00:00:00Z",
+      iV: 0,
+    ),];
   List<Order> get orders => _filteredOrders;
 
   List<MyNotification> _allNotifications = [];

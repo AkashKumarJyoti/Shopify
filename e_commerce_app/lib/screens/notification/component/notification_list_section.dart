@@ -1,32 +1,31 @@
 import '../../../core/data/data_provider.dart';
-import '../../../models/variant.dart';
-import 'add_variant_form.dart';
+import '../../../models/my_notification.dart';
+import 'view_notification_form.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../utility/color_list.dart';
 import '../../../utility/constants.dart';
 
 
-class VariantsListSection extends StatelessWidget {
-  const VariantsListSection({super.key});
+class NotificationListSection extends StatelessWidget {
+  const NotificationListSection({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(defaultPadding),
-      decoration: const BoxDecoration(
+      padding: EdgeInsets.all(defaultPadding),
+      decoration: BoxDecoration(
         color: secondaryColor,
-        borderRadius: BorderRadius.all(Radius.circular(10)),
+        borderRadius: const BorderRadius.all(Radius.circular(10)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "All Variants",
-            style: Theme
-                .of(context)
-                .textTheme
-                .titleMedium,
+            "All Notification",
+            style: Theme.of(context).textTheme.titleMedium,
           ),
           SizedBox(
             width: double.infinity,
@@ -35,31 +34,30 @@ class VariantsListSection extends StatelessWidget {
                 return DataTable(
                   columnSpacing: defaultPadding,
                   // minWidth: 600,
-                  columns: const [
+                  columns: [
                     DataColumn(
-                      label: Text("Variant"),
+                      label: Text("Title"),
                     ),
                     DataColumn(
-                      label: Text("Variant Type"),
+                      label: Text("Description"),
                     ),
                     DataColumn(
-                      label: Text("Added Date"),
+                      label: Text("Send Date"),
                     ),
                     DataColumn(
-                      label: Text("Edit"),
+                      label: Text("View"),
                     ),
                     DataColumn(
                       label: Text("Delete"),
                     ),
                   ],
                   rows: List.generate(
-                    dataProvider.variants.length,
-                        (index) =>
-                        variantDataRow(dataProvider.variants[index], index + 1, edit: () {
-                          showAddVariantForm(context, dataProvider.variants[index]);
-                        }, delete: () {
-                          //TODO: should complete call deleteVariant
-                        }),
+                    dataProvider.notifications.length,
+                    (index) => notificationDataRow(dataProvider.notifications[index], index + 1, edit: () {
+                      viewNotificationStatics(context, dataProvider.notifications[index]);
+                    }, delete: () {
+                      //TODO: should complete call deleteNotification
+                    }),
                   ),
                 );
               },
@@ -71,7 +69,7 @@ class VariantsListSection extends StatelessWidget {
   }
 }
 
-DataRow variantDataRow(Variant variantInfo, int index, {Function? edit, Function? delete}) {
+DataRow notificationDataRow(MyNotification notificationInfo, int index, {Function? edit, Function? delete}) {
   return DataRow(
     cells: [
       DataCell(
@@ -84,30 +82,30 @@ DataRow variantDataRow(Variant variantInfo, int index, {Function? edit, Function
                 color: colors[index % colors.length],
                 shape: BoxShape.circle,
               ),
-              child: Center(child: Text(index.toString())),
+              child: Text(index.toString(), textAlign: TextAlign.center),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
-              child: Text(variantInfo.name ?? ''),
+              child: Text(notificationInfo.title!),
             ),
           ],
         ),
       ),
-      DataCell(Text(variantInfo.variantTypeId?.name ?? '')),
-      DataCell(Text(variantInfo.createdAt ?? '')),
+      DataCell(Text(notificationInfo.description ?? '')),
+      DataCell(Text(notificationInfo.createdAt ?? '')),
       DataCell(IconButton(
           onPressed: () {
             if (edit != null) edit();
           },
-          icon: const Icon(
-            Icons.edit,
+          icon: Icon(
+            Icons.remove_red_eye_sharp,
             color: Colors.white,
           ))),
       DataCell(IconButton(
           onPressed: () {
             if (delete != null) delete();
           },
-          icon: const Icon(
+          icon: Icon(
             Icons.delete,
             color: Colors.red,
           ))),

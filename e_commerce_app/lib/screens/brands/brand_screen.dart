@@ -23,7 +23,7 @@ class BrandScreen extends StatelessWidget {
               children: [
                 Expanded(
                   child: Text(
-                    "My Sub Categories", style: Theme.of(context).textTheme.titleMedium,
+                    "My Brands", style: Theme.of(context).textTheme.titleMedium,
                   ),
                 ),
                 ElevatedButton.icon(
