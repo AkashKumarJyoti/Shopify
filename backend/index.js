@@ -4,10 +4,10 @@ import connectDB from './config/db.js';
 import cors from 'cors';
 import 'dotenv/config';
 
-// Controller import
+// Router import
 import categoryRouter from "./routes/categoryRoute.js";
-
-
+import subCategoryRouter from './routes/subCategoryRoute.js';
+import brandRouter from './routes/brandRoute.js';
 
 connectDB();
 
@@ -19,7 +19,8 @@ app.use(cors());
 
 // API endpoints
 app.use('/categories', categoryRouter);
-
+app.use('/subCategories', subCategoryRouter);
+app.use('/brands', brandRouter);
 
 // Global Error Handler
 app.use((error, req, res, next) => {

@@ -9,6 +9,7 @@
 
 import asyncHandler from 'express-async-handler';
 import Category from "../models/categoryModel.js";
+import SubCategory from '../models/subCategoryModel.js';
 import {uploadCategory} from '../uploadFile.js';
 import multer from 'multer';
 import fs from 'fs';
