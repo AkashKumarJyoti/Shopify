@@ -11,10 +11,12 @@ import asyncHandler from 'express-async-handler';
 import Category from "../models/categoryModel.js";
 import {uploadCategory} from '../uploadFile.js';
 import multer from 'multer';
+import fs from 'fs';
+import path from 'path';
 
 const getAllCategories = asyncHandler(async (req, res) => {
     try {
-        const categories = await Category.find();
+        const categories = await Category.find({});
         res.json({ success: true, message: "Categories retrieved successfully.", data: categories });
     }
     catch(error) {
@@ -26,11 +28,12 @@ const getAllCategories = asyncHandler(async (req, res) => {
 const getCategoryById = asyncHandler(async (req, res) => {
     try {
         const categoryID = req.params.id;
-        const category = await Category.find(categoryID);
+        const category = await Category.findById(categoryID);
 
         if (!category) {
             return res.status(404).json({ success: false, message: "Category not found." });
         }
+        console.log(category);
         res.json({ success: true, message: "Category retrieved successfully.", data: category });
     }
     catch (error) {
@@ -85,6 +88,12 @@ const addNewCategory = asyncHandler(async (req, res) => {
 const updateCategory = asyncHandler(async (req, res) => {
     try {
         const categoryID = req.params.id;
+        const oldCategory = await Category.findById(categoryID);
+
+        if (!oldCategory) {
+            return res.status(404).json({ success: false, message: "Category not found." });
+        }
+
         uploadCategory.single('img')(req, res, async function (err) {
             if (err instanceof multer.MulterError) {
                 if (err.code === 'LIMIT_FILE_SIZE') {
@@ -98,15 +107,20 @@ const updateCategory = asyncHandler(async (req, res) => {
             }
 
             const { name } = req.body;
-            let image = req.body.image;
-
-            if (req.file) {
-                image = `http://localhost:3000/image/category/${req.file.filename}`;
-            }
+            let image = oldCategory.image;
 
             if (!name || !image) {
                 return res.status(400).json({ success: false, message: "Name and image are required." });
             }
+
+            if (req.file) {
+                // Delete the old image if a new one is uploaded
+                if (fs.existsSync(path.join('./public/category', path.basename(oldCategory.image)))) {
+                    fs.unlinkSync(path.join('./public/category', path.basename(oldCategory.image)));
+                }
+                image = `http://localhost:3000/image/category/${req.file.filename}`;
+            }
+
 
             try {
                 const updatedCategory = await Category.findByIdAndUpdate(categoryID, { name: name, image: image }, { new: true });
@@ -117,7 +131,6 @@ const updateCategory = asyncHandler(async (req, res) => {
             } catch (error) {
                 res.status(500).json({ success: false, message: error.message });
             }
-
         });
 
     } catch (err) {
@@ -125,6 +138,7 @@ const updateCategory = asyncHandler(async (req, res) => {
         return res.status(500).json({ success: false, message: err.message });
     }
 });
+
 
 const deleteCategory = asyncHandler(async (req, res) => {
     try {
@@ -147,10 +161,17 @@ const deleteCategory = asyncHandler(async (req, res) => {
         if (!category) {
             return res.status(404).json({ success: false, message: "Category not found." });
         }
+
+        // Delete the image file associated with the category
+        if (fs.existsSync(path.join('./public/category', path.basename(category.image)))) {
+            fs.unlinkSync(path.join('./public/category', path.basename(category.image)));
+        }
+
         res.json({ success: true, message: "Category deleted successfully." });
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
     }
 });
+
 
 export {getAllCategories, getCategoryById, addNewCategory, updateCategory, deleteCategory};
