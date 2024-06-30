@@ -1,5 +1,5 @@
 import express from 'express';
-import {getAllBrands, getBrandById, addNewBrand, updateBrand, deleteBrand} from '../controllers/brandCategory.js';
+import {getAllBrands, getBrandById, addNewBrand, updateBrand, deleteBrand} from '../controllers/brandController.js';
 
 const brandRouter = express.Router();
 

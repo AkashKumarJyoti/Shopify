@@ -152,10 +152,10 @@ const deleteCategory = asyncHandler(async (req, res) => {
         }
 
         // Check if any products reference this category
-        const products = await Product.find({ proCategoryId: categoryID });
-        if (products.length > 0) {
-            return res.status(400).json({ success: false, message: "Cannot delete category. Products are referencing it." });
-        }
+        // const products = await Product.find({ proCategoryId: categoryID });
+        // if (products.length > 0) {
+        //     return res.status(400).json({ success: false, message: "Cannot delete category. Products are referencing it." });
+        // }
 
         // If no subcategories or products are referencing the category, proceed with deletion
         const category = await Category.findByIdAndDelete(categoryID);

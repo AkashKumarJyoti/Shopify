@@ -8,6 +8,9 @@ import 'dotenv/config';
 import categoryRouter from "./routes/categoryRoute.js";
 import subCategoryRouter from './routes/subCategoryRoute.js';
 import brandRouter from './routes/brandRoute.js';
+import variantTypeRouter from './routes/variantTypeRoute.js';
+import variantRouter from './routes/variantRoute.js';
+import userRouter from './routes/userRoute.js';
 
 connectDB();
 
@@ -21,6 +24,9 @@ app.use(cors());
 app.use('/categories', categoryRouter);
 app.use('/subCategories', subCategoryRouter);
 app.use('/brands', brandRouter);
+app.use('/variantTypes', variantTypeRouter);
+app.use('/variants', variantRouter);
+app.use('/users', userRouter);
 
 // Global Error Handler
 app.use((error, req, res, next) => {

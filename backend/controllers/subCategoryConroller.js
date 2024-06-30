@@ -27,7 +27,7 @@ const getAllSubCategories = asyncHandler(async (req, res) => {
 const getSubCategoriesById = asyncHandler(async (req, res) => {
   try {
     const subCategoryID = req.params.id;
-    const subCategory = await SubCategory.findById({subCategoryID}).populate('categoryId');
+    const subCategory = await SubCategory.findById(subCategoryID).populate('categoryId');
     if(!subCategory) {
       return res.status(404).json({ success: false, messagge: "SubCategory Not Found."});
     }
@@ -62,7 +62,8 @@ const updateSubCategory = asyncHandler(async (req, res) => {
     if(!name || !categoryId) {
       res.status(400).json({success: false, message: "Name and Sub-category are required"});
     }
-    const updatedSubCategory = await SubCategory.find(subCategoryID, {name, categoryId}, {new : true});
+    const updatedSubCategory = await SubCategory.findByIdAndUpdate(subCategoryID, {name, categoryId}, {new : true});
+    console.log(updatedSubCategory);
     if(!updatedSubCategory) {
       return res.status(404).json({success: false, message: "Sub-category not found"});
     }
@@ -89,7 +90,7 @@ const deleteSubCategory = asyncHandler(async (req, res) => {
         return res.status(400).json({ success: false, message: "Cannot delete sub-category. Products are referencing it." });
     }
 
-    const subCategory = SubCategory.findByIdAndDelete({subCategoryID});
+    const subCategory = await SubCategory.findByIdAndDelete(subCategoryID);
     if(!subCategory) {
       return res.status(404).json({success: false, message: "Sub-category not found"});
     }
