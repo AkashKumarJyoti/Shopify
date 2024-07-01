@@ -12,6 +12,7 @@ import variantTypeRouter from './routes/variantTypeRoute.js';
 import variantRouter from './routes/variantRoute.js';
 import userRouter from './routes/userRoute.js';
 import productRouter from './routes/productRoute.js';
+import couponRouter from './routes/couponCodeRoute.js';
 
 connectDB();
 
@@ -34,6 +35,7 @@ app.use('/variantTypes', variantTypeRouter);
 app.use('/variants', variantRouter);
 app.use('/users', userRouter);
 app.use('/products', productRouter);
+app.use('/couponCodes', couponRouter);
 
 // Global Error Handler
 app.use((error, req, res, next) => {
