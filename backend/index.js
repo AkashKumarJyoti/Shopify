@@ -14,6 +14,7 @@ import userRouter from './routes/userRoute.js';
 import productRouter from './routes/productRoute.js';
 import couponRouter from './routes/couponCodeRoute.js';
 import posterRouter from './routes/posterRoute.js';
+import orderRouter from './routes/orderRoute.js';
 
 connectDB();
 
@@ -38,6 +39,7 @@ app.use('/users', userRouter);
 app.use('/products', productRouter);
 app.use('/couponCodes', couponRouter);
 app.use('/posters', posterRouter);
+app.use('/orders', orderRouter);
 
 // Global Error Handler
 app.use((error, req, res, next) => {
