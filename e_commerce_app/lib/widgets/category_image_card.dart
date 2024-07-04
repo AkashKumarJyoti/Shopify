@@ -18,7 +18,7 @@ class CategoryImageCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(imageFile);
+    print(imageUrlForUpdateImage);
     var size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: onTap,

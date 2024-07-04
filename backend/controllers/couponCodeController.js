@@ -7,7 +7,7 @@
 */
 
 import asyncHandler from 'express-async-handler';
-import Coupon from '../models/couponCodeModel';
+import Coupon from '../models/couponCodeModel.js';
 
 // Get all coupon
 const getAllCoupon = asyncHandler(async (req, res) => {

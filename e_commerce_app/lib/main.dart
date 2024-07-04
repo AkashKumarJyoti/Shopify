@@ -51,7 +51,7 @@ class MyApp extends StatelessWidget {
         textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme).apply(bodyColor: Colors.white)
       ),
       initialRoute: AppPages.HOME,
-      unknownRoute: GetPage(name: '/notFound', page: () => MainScreen()),
+      unknownRoute: GetPage(name: '/notFound', page: () => const MainScreen()),
       defaultTransition: Transition.cupertino,
       getPages: AppPages.routes,
     );

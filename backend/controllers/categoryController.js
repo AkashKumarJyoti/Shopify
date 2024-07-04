@@ -109,11 +109,7 @@ const updateCategory = asyncHandler(async (req, res) => {
             }
 
             const { name } = req.body;
-            let image = oldCategory.image;
-
-            if (!name || !image) {
-                return res.status(400).json({ success: false, message: "Name and image are required." });
-            }
+            let image = req.body.image;
 
             if (req.file) {
                 // Delete the old image if a new one is uploaded
@@ -122,7 +118,9 @@ const updateCategory = asyncHandler(async (req, res) => {
                 }
                 image = `http://localhost:3000/image/category/${req.file.filename}`;
             }
-
+            if (!name || !image) {
+                return res.status(400).json({ success: false, message: "Name and image are required." });
+            }
 
             try {
                 const updatedCategory = await Category.findByIdAndUpdate(categoryID, { name: name, image: image }, { new: true });

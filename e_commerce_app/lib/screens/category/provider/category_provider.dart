@@ -2,7 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:e_commerce_app/models/api_response.dart';
 import 'package:e_commerce_app/utility/snack_bar_helper.dart';
-
+import 'package:intl/date_symbols.dart';
 import '../../../services/http_services.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart' hide Category;
@@ -42,6 +42,7 @@ class CategoryProvider extends ChangeNotifier {
       if(response.isOk) {
         ApiResponse apiResponse = ApiResponse.fromJson(response.body, null);
         if(apiResponse.success == true) {
+          _dataProvider.getAllCategory();
           clearFields();
           SnackBarHelper.showSuccessSnackBar(apiResponse.message);
           log('category added');
@@ -60,10 +61,49 @@ class CategoryProvider extends ChangeNotifier {
     }
   }
 
-  //TODO: should complete updateCategory
+  updateCategory() async {
+    // We pass the previous image url but if new image is uploaded then it will be changed from the server end.
+    // But if we don't add the new image i.e., the image url will remain as it is.
+    try {
+      Map<String, dynamic> formDataMap = {
+        'name': categoryNameCtrl.text,
+        'image': categoryForUpdate?.image ?? ''
+      };
+      final FormData form = await createFormData(imgXFile: imgXFile, formData: formDataMap);
 
-  //TODO: should complete submitCategory
+      // Now make the api call
+      final response = await service.updateItem(endpointUrl: 'categories', itemId: categoryForUpdate?.sId ?? '', itemData: form);
+      if(response.isOk) {
+        ApiResponse apiResponse = ApiResponse.fromJson(response.body, null);
+        if(apiResponse.success == true) {
+          clearFields();
+          SnackBarHelper.showSuccessSnackBar(apiResponse.message);
+          log('Category Updated');
+          _dataProvider.getAllCategory();
+        }
+        else {
+          SnackBarHelper.showErrorSnackBar('Failed to update category: ${apiResponse.message}');
+        }
+      }
+      else {
+        SnackBarHelper.showErrorSnackBar('Error ${response.body?['message'] ?? response.statusText}');
+      }
+    }
+    catch(error) {
+      print(error);
+      SnackBarHelper.showErrorSnackBar('An error occurred: $error');
+      rethrow;
+    }
+  }
 
+  submitCategory() {
+    if(categoryForUpdate != null) {
+      updateCategory();
+    }
+    else {
+      addCategory();
+    }
+  }
 
   void pickImage() async {
     final ImagePicker picker = ImagePicker();
@@ -77,7 +117,6 @@ class CategoryProvider extends ChangeNotifier {
 
   //TODO: should complete deleteCategory
 
-  //TODO: should complete setDataForUpdateCategory
 
 
   //? to create form data for sending image with body
