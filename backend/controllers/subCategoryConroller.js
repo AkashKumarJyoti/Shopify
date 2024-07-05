@@ -79,7 +79,6 @@ const deleteSubCategory = asyncHandler(async (req, res) => {
   try{
     const subCategoryID = req.params.id;
 
-    //TODO: Check for Brand and Product
     const brandCount = await Brand.countDocuments({ subcategoryId: subCategoryID });
     if (brandCount > 0) {
         return res.status(400).json({ success: false, message: "Cannot delete sub-category. It is associated with one or more brands." });

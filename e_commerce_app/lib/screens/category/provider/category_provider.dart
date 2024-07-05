@@ -96,6 +96,31 @@ class CategoryProvider extends ChangeNotifier {
     }
   }
 
+  deleteCategory(Category category) async {
+    try {
+      // We don't need to send any data we will just send the id of the item which needs to be deleted from the database
+      final response = await service.deleteItem(endpointUrl: 'categories', itemId: category.sId ?? '');
+      if(response.isOk) {
+        ApiResponse apiResponse = ApiResponse.fromJson(response.body, null);
+        if(apiResponse.success == true) {
+          SnackBarHelper.showSuccessSnackBar(apiResponse.message);
+          log('Category Deleted');
+          _dataProvider.getAllCategory();
+        }
+        else {
+          SnackBarHelper.showErrorSnackBar('Failed to delete category: ${apiResponse.message}');
+        }
+      }
+      else {
+        SnackBarHelper.showErrorSnackBar('Error ${response.body?['message'] ?? response.statusText}');
+      }
+    }
+    catch(error) {
+      print(error);
+      rethrow;
+    }
+  }
+
   submitCategory() {
     if(categoryForUpdate != null) {
       updateCategory();
@@ -115,7 +140,6 @@ class CategoryProvider extends ChangeNotifier {
     }
   }
 
-  //TODO: should complete deleteCategory
 
 
 

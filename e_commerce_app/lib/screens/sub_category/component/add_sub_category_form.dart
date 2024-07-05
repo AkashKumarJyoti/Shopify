@@ -32,7 +32,7 @@ class SubCategorySubmitForm extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Gap(defaultPadding),
+              const Gap(defaultPadding),
               Row(
                 children: [
                   Expanded(
@@ -99,6 +99,7 @@ class SubCategorySubmitForm extends StatelessWidget {
                       if (context.subCategoryProvider.addSubCategoryFormKey.currentState!.validate()) {
                         context.subCategoryProvider.addSubCategoryFormKey.currentState!.save();
                         //TODO: should complete call submitSubCategory
+                        context.subCategoryProvider.addSubCategory();
                         Navigator.of(context).pop();
                       }
                     },
