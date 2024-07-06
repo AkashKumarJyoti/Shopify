@@ -3,7 +3,6 @@ import '../provider/sub_category_provider.dart';
 import '../../../utility/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import '../../../models/category.dart';
 import '../../../utility/constants.dart';
@@ -17,13 +16,13 @@ class SubCategorySubmitForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.subCategoryProvider.setDataForUpdateCategory(subCategory);
+    context.subCategoryProvider.setDataForUpdateSubCategory(subCategory);
     var size = MediaQuery.of(context).size;
     return SingleChildScrollView(
       child: Form(
         key: context.subCategoryProvider.addSubCategoryFormKey,
         child: Container(
-          padding: EdgeInsets.all(defaultPadding),
+          padding: const EdgeInsets.all(defaultPadding),
           width: size.width * 0.5,
           decoration: BoxDecoration(
             color: bgColor,
@@ -74,7 +73,7 @@ class SubCategorySubmitForm extends StatelessWidget {
                   ),
                 ],
               ),
-              Gap(defaultPadding * 2),
+              const Gap(defaultPadding * 2),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -86,9 +85,9 @@ class SubCategorySubmitForm extends StatelessWidget {
                     onPressed: () {
                       Navigator.of(context).pop(); // Close the popup
                     },
-                    child: Text('Cancel'),
+                    child: const Text('Cancel'),
                   ),
-                  Gap(defaultPadding),
+                  const Gap(defaultPadding),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.white,
@@ -98,8 +97,7 @@ class SubCategorySubmitForm extends StatelessWidget {
                       // Validate and save the form
                       if (context.subCategoryProvider.addSubCategoryFormKey.currentState!.validate()) {
                         context.subCategoryProvider.addSubCategoryFormKey.currentState!.save();
-                        //TODO: should complete call submitSubCategory
-                        context.subCategoryProvider.addSubCategory();
+                        context.subCategoryProvider.submitSubCategory();
                         Navigator.of(context).pop();
                       }
                     },

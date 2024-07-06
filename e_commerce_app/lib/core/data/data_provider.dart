@@ -64,8 +64,10 @@ class DataProvider extends ChangeNotifier {
   DataProvider() {
     getAllCategory();
     getAllSubCategory();
+    getAllBrand();
   }
 
+  // For Categories
   Future<List<Category>> getAllCategory({ bool showSnack = false }) async {
     try {
       Response response = await service.getItems(endpointUrl: 'categories');
@@ -99,17 +101,20 @@ class DataProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  // For Subcategories
   Future<List<SubCategory>> getAllSubCategory({ bool showSnack = false }) async {
   try {
     Response response = await service.getItems(endpointUrl: 'subCategories');
-    ApiResponse<List<SubCategory>> apiResponse = ApiResponse<List<SubCategory>>.fromJson(
-      response.body,
-      (json) => (json as List).map((item) => SubCategory.fromJson(item)).toList()
-    );
-    _allSubCategories = apiResponse.data ?? [];
-    _filteredSubCategories = List.from(_allSubCategories);
-    notifyListeners();
-    if(showSnack) SnackBarHelper.showSuccessSnackBar(apiResponse.message);
+    if(response.isOk) {
+      ApiResponse<List<SubCategory>> apiResponse = ApiResponse<List<SubCategory>>.fromJson(
+          response.body,
+              (json) => (json as List).map((item) => SubCategory.fromJson(item)).toList()
+      );
+      _allSubCategories = apiResponse.data ?? [];
+      _filteredSubCategories = List.from(_allSubCategories);
+      notifyListeners();
+      if(showSnack) SnackBarHelper.showSuccessSnackBar(apiResponse.message);
+    }
   }
   catch(error) {
     if(showSnack) SnackBarHelper.showErrorSnackBar(error.toString());
@@ -132,14 +137,75 @@ class DataProvider extends ChangeNotifier {
   }
 
 
-//TODO: should complete getAllBrands
+  // For Brands
+  Future<List<Brand>> getAllBrand({ bool showSnack = false }) async {
+    try {
+      Response response = await service.getItems(endpointUrl: 'brands');
+      if(response.isOk) {
+        ApiResponse<List<Brand>> apiResponse = ApiResponse.fromJson(
+          response.body,
+          (json) => (json as List).map((item) => Brand.fromJson(item)).toList()
+        );
+        _allBrands = apiResponse.data ?? [];
+        _filteredBrands = List.from(_allBrands);
+        notifyListeners();
+        if(showSnack) SnackBarHelper.showSuccessSnackBar(apiResponse.message);
+      }
+    }
+    catch(error) {
+      if(showSnack) SnackBarHelper.showErrorSnackBar(error.toString());
+      rethrow;
+    }
+    return _filteredBrands;
+  }
+
+  filterBrands(String keyword) {
+    if(keyword.isEmpty) {
+      _filteredBrands = List.from(_allBrands);
+    }
+    else {
+      final lowerKeyword = keyword.toLowerCase();
+      _filteredBrands = _allBrands.where((brand) {
+        return (brand.name ?? '').toLowerCase().contains(lowerKeyword);
+      }).toList();
+    }
+    notifyListeners();
+  }
 
 
-//TODO: should complete filterBrands
 
+  Future<List<VariantType>> getAllVariantType({bool showSnack = false}) async {
+    try{
+      Response response = await service.getItems(endpointUrl: 'variantTypes');
+      if(response.isOk) {
+        ApiResponse apiResponse = ApiResponse.fromJson(
+          response.body,
+            (json) => (json as List).map((item) => VariantType.fromJson(item)).toList()
+        );
+        _allVariantTypes = apiResponse.data ?? [];
+        _filteredVariantTypes = List.from(_allVariantTypes);
+        notifyListeners();
+        if(showSnack) SnackBarHelper.showSuccessSnackBar(apiResponse.message);
+      }
+    }
+    catch(error) {
+      if(showSnack) SnackBarHelper.showErrorSnackBar(error.toString());
+      rethrow;
+    }
+    return _filteredVariantTypes;
+  }
 
-//TODO: should complete getAllVariantType
-
+  filterVariantTypes(String keyword) {
+    if(keyword.isEmpty) {
+      _filteredVariantTypes = List.from(_allVariantTypes);
+    }
+    else {
+      final lowerKeyword = keyword.toLowerCase();
+      _filteredVariantTypes = _allVariantTypes.where((variantType) {
+        return (variantType.name ?? '').toLowerCase().contains(lowerKeyword);
+      }).toList();
+    }
+  }
 
 //TODO: should complete filterVariantTypes
 

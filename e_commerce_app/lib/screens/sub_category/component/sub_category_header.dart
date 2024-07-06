@@ -1,4 +1,5 @@
 import 'package:e_commerce_app/utility/constants.dart';
+import 'package:e_commerce_app/utility/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -14,7 +15,7 @@ class SubCategoryHeader extends StatelessWidget {
         Expanded(
           child: SearchField(
             onChange: (val) {
-
+              context.dataProvider.filterSubCategories(val);
             },
           ),
         ),
@@ -87,6 +88,9 @@ class SearchField extends StatelessWidget {
           ),
         ),
       ),
+      onChanged: (value) {
+        onChange(value);
+      },
     );
   }
 }

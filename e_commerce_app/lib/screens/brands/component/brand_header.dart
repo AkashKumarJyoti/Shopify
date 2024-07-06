@@ -1,4 +1,5 @@
 import 'package:e_commerce_app/utility/constants.dart';
+import 'package:e_commerce_app/utility/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -14,9 +15,9 @@ class BrandHeader extends StatelessWidget {
         Expanded(
           child: SearchField(
             onChange: (val) {
-              //TODO: should complete call filterBrands
+              context.dataProvider.filterBrands(val);
             },
-          )
+          ),
         ),
         const ProfileCard()
       ],
@@ -85,6 +86,9 @@ class SearchField extends StatelessWidget {
           child: SvgPicture.asset("assets/icons/Search.svg"),
         )
       ),
+      onChanged: (value) {
+        onChange(value);
+      },
     );
   }
 }

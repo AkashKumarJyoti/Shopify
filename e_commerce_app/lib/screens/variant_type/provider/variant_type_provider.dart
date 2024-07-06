@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import '../../../core/data/data_provider.dart';
 import '../../../models/api_response.dart';
@@ -22,15 +23,96 @@ class VariantsTypeProvider extends ChangeNotifier {
   VariantsTypeProvider(this._dataProvider);
 
 
-  //TODO: should complete addVariantType
+  addVariantType() async {
+    try {
+      Map<String, dynamic> variantType = {
+        'name': variantNameCtrl.text,
+        'type': variantTypeCtrl.text
+      };
+      final response = await service.addItem(endpointUrl: 'variantType', itemData: variantType);
+      if(response.isOk) {
+        ApiResponse apiResponse = ApiResponse.fromJson(response.body, null);
+        if(apiResponse.success == true) {
+          clearFields();
+          SnackBarHelper.showSuccessSnackBar(apiResponse.message);
+          _dataProvider.getAllVariantType();
+        }
+        else {
+          SnackBarHelper.showErrorSnackBar('Failed to add variant Type: ${apiResponse.message}');
+        }
+      }
+      else {
+        SnackBarHelper.showErrorSnackBar('Error ${response.body?['message'] ?? response.statusText}');
+      }
+    }
+    catch(error) {
+      print(error);
+      SnackBarHelper.showErrorSnackBar('An error occurred: $error');
+      rethrow;
+    }
+  }
+  
+  updateVariantType() async {
+    try {
+      if(variantTypeForUpdate != null) {
+        Map<String, dynamic> variantType = {
+          'name': variantNameCtrl.text,
+          'type': variantTypeCtrl.text
+        };
+        final response = await service.updateItem(endpointUrl: 'variantTypes', itemId: variantTypeForUpdate?.sId ?? '', itemData: variantType);
+        if(response.isOk) {
+          ApiResponse apiResponse = ApiResponse.fromJson(response.body, null);
+          if(apiResponse.success == true) {
+            clearFields();
+            SnackBarHelper.showSuccessSnackBar(apiResponse.message);
+            _dataProvider.getAllVariantType();
+          }
+          else {
+            SnackBarHelper.showErrorSnackBar('Failed to add variant Type: ${apiResponse.message}');
+          }
+        }
+        else {
+          SnackBarHelper.showErrorSnackBar('Error ${response.body?['message'] ?? response.statusText}');
+        }
+      }
+    }
+    catch(error) {
+      print(error);
+      SnackBarHelper.showErrorSnackBar('An error occurred: $error');
+      rethrow;
+    }
+  }
 
+  deleteVariantType(VariantType variantType) async {
+    try {
+      Response response = await service.deleteItem(endpointUrl: 'variantTypes', itemId: variantType.sId ?? '');
+      if(response.isOk) {
+        ApiResponse apiResponse = ApiResponse.fromJson(response.body, null);
+        if(apiResponse.success == true) {
+          SnackBarHelper.showSuccessSnackBar(apiResponse.message);
+          _dataProvider.getAllVariantType();
+        }
+      }
+      else {
+        SnackBarHelper.showErrorSnackBar('Error ${response.body?['message'] ?? response.statusText}');
+      }
+    }
+    catch(error) {
+      print(error);
+      SnackBarHelper.showErrorSnackBar('An error occurred: $error');
+      rethrow;
+    }
+  }
 
-  //TODO: should complete updateVariantType
+  submitVariantType() {
+    if(variantTypeForUpdate != null) {
+      updateVariantType();
+    }
+    else {
+      addVariantType();
+    }
+  }
 
-
-  //TODO: should complete submitVariantType
-
-  //TODO: should complete deleteVariantType
 
 
   setDataForUpdateVariantTYpe(VariantType? variantType) {
