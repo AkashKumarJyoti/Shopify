@@ -86,9 +86,9 @@ class VariantSubmitForm extends StatelessWidget {
                     onPressed: () {
                       Navigator.of(context).pop(); // Close the popup
                     },
-                    child: Text('Cancel'),
+                    child: const Text('Cancel'),
                   ),
-                  SizedBox(width: defaultPadding),
+                  const SizedBox(width: defaultPadding),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.white,
@@ -98,11 +98,11 @@ class VariantSubmitForm extends StatelessWidget {
                       // Validate and save the form
                       if (context.variantProvider.addVariantsFormKey.currentState!.validate()) {
                         context.variantProvider.addVariantsFormKey.currentState!.save();
-                        //TODO: should complete call submitVariant
+                        context.variantProvider.submitVariant();
                         Navigator.of(context).pop();
                       }
                     },
-                    child: Text('Submit'),
+                    child: const Text('Submit'),
                   ),
                 ],
               ),

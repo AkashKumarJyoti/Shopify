@@ -1,6 +1,6 @@
+import 'package:e_commerce_app/utility/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-
 import '../../../utility/constants.dart';
 
 class VariantsTypeHeader extends StatelessWidget {
@@ -15,7 +15,7 @@ class VariantsTypeHeader extends StatelessWidget {
         Expanded(
           child: SearchField(
             onChange: (val) {
-
+              context.dataProvider.filterVariantTypes(val);
             }
           ),
         ),
@@ -86,6 +86,9 @@ class SearchField extends StatelessWidget {
             child: SvgPicture.asset("assets/icons/Search.svg"),
           )
       ),
+      onChanged: (value) {
+        onChange(value);
+      },
     );
   }
 }

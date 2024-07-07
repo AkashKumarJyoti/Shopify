@@ -1,4 +1,5 @@
 import 'package:e_commerce_app/utility/constants.dart';
+import 'package:e_commerce_app/utility/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'component/add_variant_type_form.dart';
@@ -43,7 +44,7 @@ class VariantsTypeScreen extends StatelessWidget {
                 const Gap(20),
                 IconButton(
                     onPressed: () {
-                      //TODO: should complete call getAllSubCategory
+                      context.dataProvider.getAllVariantType(showSnack: true);
                     },
                     icon: const Icon(Icons.refresh)),
               ],

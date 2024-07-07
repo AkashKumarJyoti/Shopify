@@ -29,7 +29,7 @@ class VariantsTypeProvider extends ChangeNotifier {
         'name': variantNameCtrl.text,
         'type': variantTypeCtrl.text
       };
-      final response = await service.addItem(endpointUrl: 'variantType', itemData: variantType);
+      final response = await service.addItem(endpointUrl: 'variantTypes', itemData: variantType);
       if(response.isOk) {
         ApiResponse apiResponse = ApiResponse.fromJson(response.body, null);
         if(apiResponse.success == true) {
@@ -51,7 +51,7 @@ class VariantsTypeProvider extends ChangeNotifier {
       rethrow;
     }
   }
-  
+
   updateVariantType() async {
     try {
       if(variantTypeForUpdate != null) {
