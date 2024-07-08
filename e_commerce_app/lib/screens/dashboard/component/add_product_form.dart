@@ -154,7 +154,7 @@ class ProductSubmitForm extends StatelessWidget {
                         displayItem: (Category? category) => category?.name ?? '',
                         onChanged: (newValue) {
                           if (newValue != null) {
-                            //TODO: should complete call  filterSubcategory
+                            context.dashBoardProvider.filterSubCategory(newValue);
                           }
                         },
                         validator: (value) {
@@ -176,7 +176,7 @@ class ProductSubmitForm extends StatelessWidget {
                         displayItem: (SubCategory? subCategory) => subCategory?.name ?? '',
                         onChanged: (newValue) {
                           if (newValue != null) {
-                            //TODO: should complete call filterBrand
+                            context.dashBoardProvider.filterBrand(newValue);
                           }
                         },
                         validator: (value) {
@@ -268,7 +268,7 @@ class ProductSubmitForm extends StatelessWidget {
                           displayItem: (VariantType? variantType) => variantType?.name ?? '',
                           onChanged: (newValue) {
                             if (newValue != null) {
-                              //TODO: should complete call filterVariant
+                              context.dashBoardProvider.filterVariant(newValue);
                             }
                           },
                           hintText: 'Select Variant type',

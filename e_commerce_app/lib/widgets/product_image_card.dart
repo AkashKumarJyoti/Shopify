@@ -66,7 +66,7 @@ class ProductImageCard extends StatelessWidget {
                     )
                   else
                     Icon(Icons.camera_alt, size: 50, color: Colors.grey[600]),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   Text(
                     labelText,
                     style: TextStyle(

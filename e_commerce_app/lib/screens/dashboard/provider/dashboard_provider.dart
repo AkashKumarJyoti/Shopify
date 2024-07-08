@@ -1,4 +1,8 @@
+import 'dart:developer';
 import 'dart:io';
+import 'package:e_commerce_app/models/api_response.dart';
+import 'package:e_commerce_app/utility/snack_bar_helper.dart';
+
 import '../../../models/brand.dart';
 import '../../../models/sub_category.dart';
 import '../../../models/variant_type.dart';
@@ -41,7 +45,51 @@ class DashBoardProvider extends ChangeNotifier {
 
   DashBoardProvider(this._dataProvider);
 
-  //TODO: should complete addProduct
+  addProduct() async {
+    try {
+      if(selectedMainImage == null) {
+        SnackBarHelper.showErrorSnackBar('Please choose a image');
+        return ;
+      }
+      Map<String, dynamic> formDataMap = {
+        'name': productNameCtrl.text,
+        'description': productDescCtrl.text,
+        'proCategoryId': selectedCategory?.sId ?? '',
+        'proSubCategoryId': selectedSubCategory?.sId ?? '',
+        'proBrandId': selectedBrand?.sId ?? '',
+        'price': productPriceCtrl.text,
+        'offerPrice': productOffPriceCtrl.text.isEmpty ? productPriceCtrl.text : productOffPriceCtrl.text,
+        'quantity': productQntCtrl.text,
+        'proVariantTypeId': selectedVariantType?.sId,
+        'proVariantId': selectedVariants
+      };
+
+      final FormData form = await createFormDataForMultipleImage(imgXFiles: [
+        {'image1': mainImgXFile}, {'image2': secondImgXFile}, {'image3': thirdImgXFile}, {'image4': fourthImgXFile}, {'image5': fifthImgXFile}
+      ], formData: formDataMap);
+
+      final response = await service.addItem(endpointUrl: 'products', itemData: form);
+      if(response.isOk) {
+        ApiResponse apiResponse = ApiResponse.fromJson(response.body, null);
+        if(apiResponse.success == true) {
+          clearFields();
+          SnackBarHelper.showErrorSnackBar(apiResponse.message);
+          log('Products added');
+        }
+        else {
+          SnackBarHelper.showErrorSnackBar('Failed to add products: ${apiResponse.message}');
+        }
+      }
+      else {
+        SnackBarHelper.showErrorSnackBar('Error: ${response.body?['message'] ?? response.statusText}');
+      }
+    }
+    catch(error) {
+      print(error);
+      SnackBarHelper.showErrorSnackBar('An error occurred: $error');
+      rethrow;
+    }
+  }
 
   //TODO: should complete updateProduct
 
@@ -84,17 +132,17 @@ class DashBoardProvider extends ChangeNotifier {
     // Loop over the provided image files and add them to the form data
     if (imgXFiles != null) {
       for (int i = 0; i < imgXFiles.length; i++) {
-        XFile? imgXFile = imgXFiles[i]['image' + (i + 1).toString()];
+        XFile? imgXFile = imgXFiles[i]['image${i + 1}'];
         if (imgXFile != null) {
           // Check if it's running on the web
           if (kIsWeb) {
             String fileName = imgXFile.name;
             Uint8List byteImg = await imgXFile.readAsBytes();
-            formData['image' + (i + 1).toString()] = MultipartFile(byteImg, filename: fileName);
+            formData['image${i + 1}'] = MultipartFile(byteImg, filename: fileName);
           } else {
             String filePath = imgXFile.path;
             String fileName = filePath.split('/').last;
-            formData['image' + (i + 1).toString()] = await MultipartFile(filePath, filename: fileName);
+            formData['image${i + 1}'] = await MultipartFile(filePath, filename: fileName);
           }
         }
       }
@@ -105,12 +153,39 @@ class DashBoardProvider extends ChangeNotifier {
     return form;
   }
 
+  // Function to get Subcategory according to selected category for dropdown
+  filterSubCategory(Category category) {
+    selectedSubCategory = null;
+    selectedBrand = null;
+    selectedCategory = category;
+    subCategoriesByCategory.clear();
 
-  //TODO: should complete filterSubcategory
+    final newList = _dataProvider.subCategories.where((subcategory) => subcategory.categoryId?.sId == category.sId).toList();
+    subCategoriesByCategory = newList;
+    notifyListeners();
+  }
 
-  //TODO: should complete filterBrand
+  // Function to get Brands according to selected subCategory for dropdown
+  filterBrand(SubCategory subCategory) {
+    selectedBrand = null;
+    selectedSubCategory = subCategory;
+    brandsBySubCategory.clear();
 
-  //TODO: should complete filterVariant
+    final newList = _dataProvider.brands.where((brand) => brand.subcategoryId?.sId == subCategory.sId).toList();
+    brandsBySubCategory = newList;
+    notifyListeners();
+  }
+
+  // Function to get Variants according to selected variant for dropdown
+  filterVariant(VariantType variantType) {
+    selectedVariants.clear();
+    selectedVariantType = variantType;
+
+    final newList = _dataProvider.variants.where((variant) => variant.variantTypeId?.sId == variantType.sId).toList();
+    final List<String> variantNames = newList.map((variant) => variant.name ?? '').toList();
+    variantsByVariantType = variantNames;
+    notifyListeners();
+  }
 
 
 

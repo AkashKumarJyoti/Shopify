@@ -10,7 +10,7 @@ const variantSchema = new mongoose.Schema({
     ref: 'VariantType',
     required: [true, 'VaraintType Id is required']
   }
-});
+}, {timestamps: true});
 
 const variantTypeModel = mongoose.models.Variant || mongoose.model('Variant', variantSchema);
 

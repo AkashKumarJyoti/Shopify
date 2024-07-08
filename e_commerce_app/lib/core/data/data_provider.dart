@@ -215,11 +215,9 @@ class DataProvider extends ChangeNotifier {
     try {
       Response response = await service.getItems(endpointUrl: 'variants');
       if(response.isOk) {
-        ApiResponse apiResponse = ApiResponse.fromJson(
-          response.body,
-          (json) => (json as List).map((item) => {
-            Variant.fromJson(item)
-          }).toList()
+        ApiResponse<List<Variant>> apiResponse = ApiResponse.fromJson(
+            response.body,
+                (json) => (json as List).map((item) => Variant.fromJson(item)).toList()
         );
 
         _allVariants = apiResponse.data ?? [];
@@ -229,6 +227,7 @@ class DataProvider extends ChangeNotifier {
       }
     }
     catch(error) {
+      print(error);
       SnackBarHelper.showErrorSnackBar(error.toString());
       rethrow;
     }
