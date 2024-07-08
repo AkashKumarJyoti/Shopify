@@ -319,7 +319,7 @@ class ProductSubmitForm extends StatelessWidget {
                       // Validate and save the form
                       if (context.dashBoardProvider.addProductFormKey.currentState!.validate()) {
                         context.dashBoardProvider.addProductFormKey.currentState!.save();
-                        //TODO: should complete call submitProduct
+                        context.dashBoardProvider.submitProduct();
                         Navigator.of(context).pop();
                       }
                     },

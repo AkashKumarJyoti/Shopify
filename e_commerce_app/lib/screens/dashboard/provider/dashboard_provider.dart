@@ -73,7 +73,8 @@ class DashBoardProvider extends ChangeNotifier {
         ApiResponse apiResponse = ApiResponse.fromJson(response.body, null);
         if(apiResponse.success == true) {
           clearFields();
-          SnackBarHelper.showErrorSnackBar(apiResponse.message);
+          SnackBarHelper.showSuccessSnackBar(apiResponse.message);
+          _dataProvider.getAllProduct();
           log('Products added');
         }
         else {
@@ -91,13 +92,77 @@ class DashBoardProvider extends ChangeNotifier {
     }
   }
 
-  //TODO: should complete updateProduct
+  updateProduct() async {
+    try {
+      Map<String, dynamic> formDataMap = {
+        'name': productNameCtrl.text,
+        'description': productDescCtrl.text,
+        'proCategoryId': selectedCategory?.sId ?? '',
+        'proSubCategoryId': selectedSubCategory?.sId ?? '',
+        'proBrandId': selectedBrand?.sId ?? '',
+        'price': productPriceCtrl.text,
+        'offerPrice': productOffPriceCtrl.text.isEmpty ? productPriceCtrl.text : productOffPriceCtrl.text,
+        'quantity': productQntCtrl.text,
+        'proVariantTypeId': selectedVariantType?.sId,
+        'proVariantId': selectedVariants
+      };
 
+      final FormData form = await createFormDataForMultipleImage(imgXFiles: [
+        {'image1': mainImgXFile}, {'image2': secondImgXFile}, {'image3': thirdImgXFile}, {'image4': fourthImgXFile}, {'image5': fifthImgXFile}
+      ], formData: formDataMap);
 
-  //TODO: should complete submitProduct
+      final response = await service.updateItem(endpointUrl: 'products', itemId: '${productForUpdate?.sId}', itemData: form);
+      if(response.isOk) {
+        ApiResponse apiResponse = ApiResponse.fromJson(response.body, null);
+        if(apiResponse.success == true) {
+          clearFields();
+          SnackBarHelper.showSuccessSnackBar(apiResponse.message);
+          _dataProvider.getAllProduct();
+        }
+        else {
+          SnackBarHelper.showErrorSnackBar('Failed to update products: ${apiResponse.message}');
+        }
+      }
+      else {
+        SnackBarHelper.showErrorSnackBar('Error: ${response.body?['message'] ?? response.statusText}');
+      }
+    }
+    catch(error) {
+      print(error);
+      SnackBarHelper.showErrorSnackBar('An error occurred: $error');
+      rethrow;
+    }
+  }
 
+  deleteProduct(Product product) async {
+    try {
+      Response response = await service.deleteItem(endpointUrl: 'products', itemId: product.sId ?? '');
+      if(response.isOk) {
+        ApiResponse apiResponse = ApiResponse.fromJson(response.body, null);
+        if(apiResponse.success == true) {
+          SnackBarHelper.showSuccessSnackBar('Product Deleted Successfully');
+          _dataProvider.getAllProduct();
+        }
+      }
+      else {
+        SnackBarHelper.showErrorSnackBar('Error: ${response.body?['message'] ?? response.statusText}');
+      }
+    }
+    catch(error) {
+      print(error);
+      SnackBarHelper.showErrorSnackBar('An error occurred: $error');
+      rethrow;
+    }
+  }
 
-  //TODO: should complete deleteProduct
+  submitProduct() {
+    if(productForUpdate != null) {
+      updateProduct();
+    }
+    else {
+      addProduct();
+    }
+  }
 
 
 

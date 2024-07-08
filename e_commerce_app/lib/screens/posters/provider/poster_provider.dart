@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'package:e_commerce_app/models/api_response.dart';
+import 'package:e_commerce_app/utility/snack_bar_helper.dart';
 import '../../../services/http_services.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart' hide Category;
@@ -23,14 +25,104 @@ class PosterProvider extends ChangeNotifier {
 
   PosterProvider(this._dataProvider);
 
-  //TODO: should complete addPoster
+  addPoster() async {
+    try {
+      if(selectedImage == null) {
+        SnackBarHelper.showErrorSnackBar('Please Choose a Image');
+        return ;
+      }
+      Map<String, dynamic> formDataMap = {
+        'posterName': posterNameCtrl.text,
+        'image': 'no_data'  // Image path will be added from the server side
+      };
+      final FormData form = await createFormData(imgXFile: imgXFile, formData: formDataMap);
+
+      final response = await service.addItem(endpointUrl: 'posters', itemData: form);
+
+      if(response.isOk) {
+        ApiResponse apiResponse = ApiResponse.fromJson(response.body, null);
+        if(apiResponse.success == true) {
+          clearFields();
+          SnackBarHelper.showSuccessSnackBar(apiResponse.message);
+          _dataProvider.getAllPoster();
+        }
+        else {
+          SnackBarHelper.showErrorSnackBar('Failed to add products: ${apiResponse.message}');
+        }
+      }
+      else {
+        SnackBarHelper.showErrorSnackBar('Error: ${response.body?['message'] ?? response.statusText}');
+      }
+    }
+    catch(error) {
+      print(error);
+      SnackBarHelper.showErrorSnackBar('An error occurred: $error');
+      rethrow;
+    }
+  }
 
 
-  //TODO: should complete updatePoster
+  updatePoster() async {
+    try {
+      Map<String, dynamic> formDataMap = {
+        'posterName': posterNameCtrl.text,
+        'image': posterForUpdate?.imageUrl  // Image path will be added from the server side
+      };
+      final FormData form = await createFormData(imgXFile: imgXFile, formData: formDataMap);
 
+      final response = await service.updateItem(endpointUrl: 'posters', itemId: posterForUpdate?.sId ?? '', itemData: form);
 
-  //TODO: should complete submitPoster
+      if(response.isOk) {
+        ApiResponse apiResponse = ApiResponse.fromJson(response.body, null);
+        if(apiResponse.success == true) {
+          clearFields();
+          SnackBarHelper.showSuccessSnackBar(apiResponse.message);
+          _dataProvider.getAllPoster();
+        }
+        else {
+          SnackBarHelper.showErrorSnackBar('Failed to add products: ${apiResponse.message}');
+        }
+      }
+      else {
+        SnackBarHelper.showErrorSnackBar('Error: ${response.body?['message'] ?? response.statusText}');
+      }
+    }
+    catch(error) {
+      print(error);
+      SnackBarHelper.showErrorSnackBar('An error occurred: $error');
+      rethrow;
+    }
+  }
 
+  submitPoster() {
+    if(posterForUpdate != null) {
+      updatePoster();
+    }
+    else {
+      addPoster();
+    }
+  }
+
+  deletePoster(Poster poster) async {
+    try {
+      Response response = await service.deleteItem(endpointUrl: 'posters', itemId: poster.sId ?? '');
+      if(response.isOk) {
+        ApiResponse apiResponse = ApiResponse.fromJson(response.body, null);
+        if(apiResponse.success == true) {
+          SnackBarHelper.showSuccessSnackBar('Poster Deleted Successfully');
+          _dataProvider.getAllPoster();
+        }
+      }
+      else {
+        SnackBarHelper.showErrorSnackBar('Error: ${response.body?['message'] ?? response.statusText}');
+      }
+    }
+    catch(error) {
+      print(error);
+      SnackBarHelper.showErrorSnackBar('An error occurred: $error');
+      rethrow;
+    }
+  }
 
   void pickImage() async {
     final ImagePicker picker = ImagePicker();
@@ -41,9 +133,6 @@ class PosterProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
-
-
-  //TODO: should complete deletePoster
 
 
   setDataForUpdatePoster(Poster? poster) {

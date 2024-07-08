@@ -1,11 +1,12 @@
-import '../../models/dash_board_header.dart';
+import 'package:e_commerce_app/utility/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import '../../utility/constants.dart';
 import 'component/add_product_form.dart';
+import 'component/dashboard_header.dart';
 import 'component/order_details_section.dart';
 import 'component/product_list_section.dart';
-import 'component/product_summery_section.dart';
+import 'component/product_summary_section.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
@@ -52,7 +53,7 @@ class DashboardScreen extends StatelessWidget {
                           const Gap(20),
                           IconButton(
                               onPressed: () {
-                                //TODO: should complete call getAllProduct
+                                context.dataProvider.getAllProduct(showSnack: true);
                               },
                               icon: const Icon(Icons.refresh)),
                         ],

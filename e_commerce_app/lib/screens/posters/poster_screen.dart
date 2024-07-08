@@ -1,6 +1,7 @@
 import 'package:e_commerce_app/screens/posters/component/add_poster_form.dart';
 import 'package:e_commerce_app/screens/posters/component/poster_header.dart';
 import 'package:e_commerce_app/screens/posters/component/poster_list_section.dart';
+import 'package:e_commerce_app/utility/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import '../../utility/constants.dart';
@@ -39,7 +40,7 @@ class PosterScreen extends StatelessWidget {
                   const Gap(20),
                   IconButton(
                       onPressed: () {
-                        //TODO: should complete getAllCategory
+                        context.dataProvider.getAllPoster(showSnack: true);
                       },
                       icon: const Icon(Icons.refresh)
                   ),
