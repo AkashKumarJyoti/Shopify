@@ -1,9 +1,9 @@
 import 'package:e_commerce_app/screens/coupon_code/component/add_coupon_form.dart';
 import 'package:e_commerce_app/screens/coupon_code/component/coupon_code_header.dart';
 import 'package:e_commerce_app/screens/coupon_code/component/coupon_list_section.dart';
+import 'package:e_commerce_app/utility/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-
 import '../../utility/constants.dart';
 
 class CouponCodeScreen extends StatelessWidget {
@@ -40,7 +40,7 @@ class CouponCodeScreen extends StatelessWidget {
                   const Gap(20),
                   IconButton(
                       onPressed: () {
-                        //TODO: should complete getAllCategory
+                        context.dataProvider.getAllCoupons(showSnack: true);
                       },
                       icon: const Icon(Icons.refresh)
                   ),

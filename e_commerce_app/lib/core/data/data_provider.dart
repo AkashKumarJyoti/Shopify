@@ -68,6 +68,7 @@ class DataProvider extends ChangeNotifier {
     getAllVariantType();
     getAllVariant();
     getAllPoster();
+    getAllCoupons();
   }
 
   // For Categories
@@ -287,11 +288,40 @@ class DataProvider extends ChangeNotifier {
   }
 
 
+  Future<List<Coupon>> getAllCoupons({bool showSnack = false}) async {
+    try {
+      Response response = await service.getItems(endpointUrl: 'couponCodes');
+      if(response.isOk) {
+        ApiResponse apiResponse = ApiResponse<List<Coupon>>.fromJson(
+            response.body,
+                (json) => (json as List).map((item) => Coupon.fromJson(item)).toList()
+        );
+        _allCoupons = apiResponse.data ?? [];
+        _filteredCoupons = List.from(_allCoupons);
+        notifyListeners();
+        if(showSnack) SnackBarHelper.showSuccessSnackBar(apiResponse.message);
+      }
+    }
+    catch(error) {
+      print(error);
+      SnackBarHelper.showErrorSnackBar(error.toString());
+      rethrow;
+    }
+    return _filteredCoupons;
+  }
 
-//TODO: should  complete getAllCoupons
-
-
-//TODO: should complete filterCoupons
+  void filterCoupons(String keyword) {
+    if(keyword.isEmpty) {
+      _filteredCoupons = List.from(_allCoupons);
+    }
+    else {
+      final lowerKeyword = keyword.toLowerCase();
+      _filteredCoupons = _filteredCoupons.where((coupon) {
+        return (coupon.couponCode ?? '').toLowerCase().contains(lowerKeyword);
+      }).toList();
+    }
+    notifyListeners();
+  }
 
 
   Future<List<Poster>> getAllPoster({bool showSnack = false}) async {
@@ -318,7 +348,6 @@ class DataProvider extends ChangeNotifier {
 
 
   filterPosters(String keyword) {
-    print(keyword);
     if(keyword.isEmpty) {
       _filteredPosters = List.from(_allPosters);
     }

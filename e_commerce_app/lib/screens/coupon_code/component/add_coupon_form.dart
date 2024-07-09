@@ -218,7 +218,7 @@ class CouponSubmitForm extends StatelessWidget {
                     },
                     child: Text('Cancel'),
                   ),
-                  SizedBox(width: defaultPadding),
+                  const SizedBox(width: defaultPadding),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.white,
@@ -228,11 +228,11 @@ class CouponSubmitForm extends StatelessWidget {
                       // Validate and save the form
                       if (context.couponCodeProvider.addCouponFormKey.currentState!.validate()) {
                         context.couponCodeProvider.addCouponFormKey.currentState!.save();
-                        //TODO: should complete call  submitCoupon
+                        context.couponCodeProvider.submitCoupon();
                         Navigator.of(context).pop();
                       }
                     },
-                    child: Text('Submit'),
+                    child: const Text('Submit'),
                   ),
                 ],
               ),
