@@ -6,6 +6,12 @@
       <excludeFolder url="file://$MODULE_DIR$/e_commerce_app/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/e_commerce_app/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/e_commerce_app/build" />
+      <excludeFolder url="file://$MODULE_DIR$/e_commerce_app/client_side/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/e_commerce_app/client_side/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/e_commerce_app/client_side/build" />
+      <excludeFolder url="file://$MODULE_DIR$/e_commerce_app/admin panel/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/e_commerce_app/admin panel/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/e_commerce_app/admin panel/build" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
