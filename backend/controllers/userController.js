@@ -54,6 +54,7 @@ const getUserById = asyncHandler(async(req, res) => {
   }
 });
 
+// Register user
 const createUser = asyncHandler(async(req, res) => {
   try {
     const { name, password } = req.body;
